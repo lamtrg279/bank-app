@@ -1,4 +1,3 @@
-import { Span } from "next/dist/trace";
 import React from "react";
 
 const HeaderBox = ({
@@ -15,7 +14,7 @@ const HeaderBox = ({
           <span className='text-bankGradient'>&nbsp;{user}</span>
         )}
       </h1>
-      <p className="header-box-subtext">{subtext}</p>
+      <p className='header-box-subtext'>{subtext}</p>
     </div>
   );
 };
