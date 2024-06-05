@@ -23,17 +23,31 @@ const BankCard = ({
           <article className='flex flex-col gap-2'>
             <div className='flex justify-between'>
               <h1 className='text-12 font-semibold text-white'>{userName}</h1>
-              <h2 className='text-12 font-semibold text-white'>** / **</h2>
-              <p className="text-14 font-semibold trackking-[1.1px] text-white">
-                **** **** **** <span className="text-16">${account.mask}</span>
-              </p>
+              <h2 className='text-12 font-semibold text-white'>●● / ●●</h2>
             </div>
+            <p className='text-14 font-semibold trackking-[1.1px] text-white'>
+              ●●●● ●●●● ●●●●
+              <span className='text-16'> {account.mask || 1234}</span>
+            </p>
           </article>
         </div>
-        <div className="bank-card_icon">
-          <Image src="/icons/Paypass.svg" height={24} width={20} alt="pay"/>
-          <Image src="/icons/mastercard.svg" height={32} width={45} alt="pay"/>
+        <div className='bank-card_icon'>
+          <Image src='/icons/Paypass.svg' height={24} width={20} alt='pay' />
+          <Image
+            src='/icons/mastercard.svg'
+            height={32}
+            width={45}
+            alt='mastercard'
+            className="ml-5"
+          />
         </div>
+        <Image
+          src='/icons/lines.svg'
+          height={190}
+          width={316}
+          alt='lines'
+          className='absolute top-0 left-0'
+        />
       </Link>
     </div>
   );
