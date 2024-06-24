@@ -17,26 +17,26 @@ export const formatDateTime = (dateString: Date) => {
     day: "numeric", // numeric day of the month (e.g., '25')
     hour: "numeric", // numeric hour (e.g., '8')
     minute: "numeric", // numeric minute (e.g., '30')
-    hour12: true, // use 12-hour clock (true) or 24-hour clock (false)
+    hour12: true // use 12-hour clock (true) or 24-hour clock (false)
   };
 
   const dateDayOptions: Intl.DateTimeFormatOptions = {
     weekday: "short", // abbreviated weekday name (e.g., 'Mon')
     year: "numeric", // numeric year (e.g., '2023')
     month: "2-digit", // abbreviated month name (e.g., 'Oct')
-    day: "2-digit", // numeric day of the month (e.g., '25')
+    day: "2-digit" // numeric day of the month (e.g., '25')
   };
 
   const dateOptions: Intl.DateTimeFormatOptions = {
     month: "short", // abbreviated month name (e.g., 'Oct')
     year: "numeric", // numeric year (e.g., '2023')
-    day: "numeric", // numeric day of the month (e.g., '25')
+    day: "numeric" // numeric day of the month (e.g., '25')
   };
 
   const timeOptions: Intl.DateTimeFormatOptions = {
     hour: "numeric", // numeric hour (e.g., '8')
     minute: "numeric", // numeric minute (e.g., '30')
-    hour12: true, // use 12-hour clock (true) or 24-hour clock (false)
+    hour12: true // use 12-hour clock (true) or 24-hour clock (false)
   };
 
   const formattedDateTime: string = new Date(dateString).toLocaleString(
@@ -63,7 +63,7 @@ export const formatDateTime = (dateString: Date) => {
     dateTime: formattedDateTime,
     dateDay: formattedDateDay,
     dateOnly: formattedDate,
-    timeOnly: formattedTime,
+    timeOnly: formattedTime
   };
 };
 
@@ -71,7 +71,7 @@ export function formatAmount(amount: number): string {
   const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
-    minimumFractionDigits: 2,
+    minimumFractionDigits: 2
   });
 
   return formatter.format(amount);
@@ -97,7 +97,7 @@ export function formUrlQuery({ params, key, value }: UrlQueryParams) {
   return qs.stringifyUrl(
     {
       url: window.location.pathname,
-      query: currentUrl,
+      query: currentUrl
     },
     { skipNull: true }
   );
@@ -110,7 +110,7 @@ export function getAccountTypeColors(type: AccountTypes) {
         bg: "bg-blue-25",
         lightBg: "bg-blue-100",
         title: "text-blue-900",
-        subText: "text-blue-700",
+        subText: "text-blue-700"
       };
 
     case "credit":
@@ -118,7 +118,7 @@ export function getAccountTypeColors(type: AccountTypes) {
         bg: "bg-success-25",
         lightBg: "bg-success-100",
         title: "text-success-900",
-        subText: "text-success-700",
+        subText: "text-success-700"
       };
 
     default:
@@ -126,7 +126,7 @@ export function getAccountTypeColors(type: AccountTypes) {
         bg: "bg-green-25",
         lightBg: "bg-green-100",
         title: "text-green-900",
-        subText: "text-green-700",
+        subText: "text-green-700"
       };
   }
 }
@@ -160,7 +160,7 @@ export function countTransactionCategories(
     (category) => ({
       name: category,
       count: categoryCounts[category],
-      totalCount,
+      totalCount
     })
   );
 
@@ -196,7 +196,19 @@ export const getTransactionStatus = (date: Date) => {
   return date > twoDaysAgo ? "Processing" : "Success";
 };
 
-export const formSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8)
-});
+export const AuthFormSchema = (type : String) =>
+  z.object({
+    firstName: type === "sign-in" ? z.string().optional() : z.string().min(3),
+    lastName: type === "sign-in" ? z.string().optional() : z.string().min(3),
+    address:
+      type === "sign-in" ? z.string().optional() : z.string().min(3).max(50),
+    state:
+      type === "sign-in" ? z.string().optional() : z.string().min(2).max(2),
+    postalCode:
+      type === "sign-in" ? z.string().optional() : z.string().min(5).max(5),
+    dateOfBirth: type === "sign-in" ? z.string().optional() : z.string().min(4),
+    ssn: type === "sign-in" ? z.string().optional() : z.string().min(4).max(4),
+    //
+    email: z.string().email(),
+    password: z.string().min(8)
+  });
