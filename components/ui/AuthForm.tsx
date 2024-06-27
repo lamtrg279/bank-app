@@ -10,12 +10,15 @@ import { Form } from "@/components/ui/form";
 import CustomInput from "./CustomInput";
 import { AuthFormSchema } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { getLoggedInUser, signIn, signUp } from "@/lib/actions/user.actions";
 
 const AuthForm = ({ type }: { type: String }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const formSchema = AuthFormSchema(type);
 
+  const router = useRouter();
+  const formSchema = AuthFormSchema(type);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -23,15 +26,33 @@ const AuthForm = ({ type }: { type: String }) => {
       password: ""
     }
   });
-
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(data: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     setIsLoading(true);
-    console.log(values);
-    setIsLoading(false);
+    try {
+      if (type === "sign-up") {
+        const newUser = await signUp(data)
+        setUser(newUser);
+      }
+
+      if (type === "sign-in") {
+      //   const response = await signIn({
+      //     email: data.email,
+      //     password: data.password
+      //   });
+      //   if (response) {
+      //     router.push("/");
+      //   // }
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   }
+
   return (
     <section className='auth-form'>
       <header className='flex flex-col gap-5 md:gap-8'>
@@ -86,7 +107,13 @@ const AuthForm = ({ type }: { type: String }) => {
                     label='Address'
                     placeholder='Enter your address'
                   />
-                  <div className="flex gap-4">
+                  <CustomInput
+                    control={form.control}
+                    name='city'
+                    label='City'
+                    placeholder='Enter your address'
+                  />
+                  <div className='flex gap-4'>
                     <CustomInput
                       control={form.control}
                       name='state'
@@ -100,20 +127,19 @@ const AuthForm = ({ type }: { type: String }) => {
                       placeholder='Example: 55123'
                     />
                   </div>
-                  <div className="flex gap-4">
-                  <CustomInput
-                    control={form.control}
-                    name='dateOfBirth'
-                    label='Date Of Birth'
-                    placeholder='MM-DD-YYYY'
-                  />
-                  <CustomInput
-                    control={form.control}
-                    name='ssn'
-                    label='SSN'
-                    placeholder='Ex: 1234'
-                  />
-
+                  <div className='flex gap-4'>
+                    <CustomInput
+                      control={form.control}
+                      name='dateOfBirth'
+                      label='Date Of Birth'
+                      placeholder='MM-DD-YYYY'
+                    />
+                    <CustomInput
+                      control={form.control}
+                      name='ssn'
+                      label='SSN'
+                      placeholder='Ex: 1234'
+                    />
                   </div>
                 </>
               ) : null}
