@@ -16,7 +16,6 @@ import { getLoggedInUser, signIn, signUp } from "@/lib/actions/user.actions";
 const AuthForm = ({ type }: { type: String }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-
   const router = useRouter();
   const formSchema = AuthFormSchema(type);
   const form = useForm<z.infer<typeof formSchema>>({
