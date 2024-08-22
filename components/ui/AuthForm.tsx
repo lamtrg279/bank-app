@@ -32,21 +32,21 @@ const AuthForm = ({ type }: { type: String }) => {
     // ✅ This will be type-safe and validated.
     setIsLoading(true);
     try {
-const userData = { 
-  firstName: data.firstName!,
-  lastName: data.lastName!,
-  address1: data.address1!,
-  city: data.city!,
-  state: data.state!,
-  postalCode: data.postalCode!,
-  dateOfBirth: data.dateOfBirth!,
-  ssn: data.ssn!,
-  email: data.email,
-  password: data.password,
-}
+      const userData = {
+        firstName: data.firstName!,
+        lastName: data.lastName!,
+        address1: data.address1!,
+        city: data.city!,
+        state: data.state!,
+        postalCode: data.postalCode!,
+        dateOfBirth: data.dateOfBirth!,
+        ssn: data.ssn!,
+        email: data.email,
+        password: data.password
+      };
 
       if (type === "sign-up") {
-        const newUser = await signUp(data)
+        const newUser = await signUp(userData);
         setUser(newUser);
       }
 
@@ -93,7 +93,7 @@ const userData = {
       </header>
       {user ? (
         <div className='flex flex-col gap-4'>
-          <PlaidLink user={user} variant="primary"/>
+          <PlaidLink user={user} variant='primary' />
         </div>
       ) : (
         <>
@@ -118,7 +118,7 @@ const userData = {
                   </div>
                   <CustomInput
                     control={form.control}
-                    name='address'
+                    name='address1'
                     label='Address'
                     placeholder='Enter your address'
                   />
